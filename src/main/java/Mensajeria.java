@@ -6,5 +6,6 @@
 public class Mensajeria {
 
     public static void main(String[] args) {
+        String h="Hola la ola";
     }
 }
