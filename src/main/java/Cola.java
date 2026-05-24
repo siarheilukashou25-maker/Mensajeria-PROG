@@ -19,8 +19,18 @@ public class Cola {
             this.tCola.addLast(obj);                  
         }
         
-        public Object sacarDeCola(){      
-            return this.tCola.getFirst();
+        public Object sacarDeCola(){ 
+            //Entorno:
+                Object obj;
+            //Algoritmo:
+                if(!esColaVacia()){
+                    obj = this.tCola.getFirst();
+                    this.tCola.removeFirst();              
+                }else{                  
+                    obj = null;
+                }
+            
+            return obj;
         }
         
         public boolean esColaVacia(){            
