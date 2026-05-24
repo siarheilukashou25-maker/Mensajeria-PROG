@@ -13,5 +13,5 @@ Se ha creado la clase `Cola.java` con una estructura dinámica tipo `LinkedList`
 * **Turno 4 (Conductor Alumno B):** Implementación de la opción 3.Recibir mensaje con control de cola vacía y opción 4.Salir con control de cola vacía y confirmación de usuario por teclado.
 
 ## 3. Evidencia del Trabajo Síncrono
-![Screenshot de llamada en Discord](https://i.ibb.co/4n3H7mc7/image.png)
+![Screenshot de llamada en Discord](https://i.ibb.co/TB0HtKn8/image.png)
 
