@@ -1,117 +1,158 @@
+
+import java.util.GregorianCalendar;
+
 /**
  *
  * @author Siarhei Lukashou
  * @author Elias Perez Arroyo
  */
 public class Mensajeria {
-    public static byte datoByte(){
+
+    public static byte datoByte() {
         //Entorno:
-            byte numeroByte;
-            short numeroShort;
+        byte numeroByte;
+        short numeroShort;
         //Algoritmo:
-            numeroByte = 0;
-            numeroShort = 0;
-            
-            do{
-                numeroShort = Leer.datoShort();
-                
-                if(numeroShort < Byte.MIN_VALUE || numeroShort > Byte.MAX_VALUE){
-                    System.out.println("Ese dato no es válido. Teclee otro: ");
-                }
-                
-            }while (numeroShort < Byte.MIN_VALUE || numeroShort > Byte.MAX_VALUE);
-            
-            numeroByte = (byte)numeroShort;
-            
-            return numeroByte;
+        numeroByte = 0;
+        numeroShort = 0;
+
+        do {
+            numeroShort = Leer.datoShort();
+
+            if (numeroShort < Byte.MIN_VALUE || numeroShort > Byte.MAX_VALUE) {
+                System.out.println("Ese dato no es válido. Teclee otro: ");
+            }
+
+        } while (numeroShort < Byte.MIN_VALUE || numeroShort > Byte.MAX_VALUE);
+
+        numeroByte = (byte) numeroShort;
+
+        return numeroByte;
     }//Fin Funcion
-    
-    public static void pintarMenu(){
+
+    public static void pintarMenu() {
         //Entorno:
         //Algoritmo:
-            System.out.println("1. Envío instantáneo.");
-            System.out.println("2. Enviar mensaje.");
-            System.out.println("3. Recibir mensaje.");
-            System.out.println("4. Salir");
+        System.out.println("1. Envío instantáneo.");
+        System.out.println("2. Enviar mensaje.");
+        System.out.println("3. Recibir mensaje.");
+        System.out.println("4. Salir");
     }//Fin Procidimiento  
-    
-    public static void envioInstanteo(Cola cola){
+
+    public static void envioInstanteo(Cola cola) {
         //Entorno:     
         //Algoritmo:       
-            cola.meterEnCola(new Mensaje());      
+        cola.meterEnCola(new Mensaje());
     }
-    
-    public static Mensaje pedirMensaje(){
+
+    public static Mensaje pedirMensaje() {
         //Entorno:
-            String usuario, ip, texto;      
-            Mensaje mensaje;
+        String usuario, ip, texto;
+        Mensaje mensaje;
         //Algoritmo:
-            usuario = "";
-            ip = "";
-            texto = "";
-        
-            System.out.println("Introduce datos del mensaje: ");
-            System.out.println("Usuario: ");
-            usuario = Leer.dato();
-            System.out.println("IP: ");
-            ip = Leer.dato();
-            System.out.println("Texto: ");
-            texto = Leer.dato();
-            
-            mensaje = new Mensaje(usuario, ip, texto);
-            
-            return mensaje;
+        usuario = "";
+        ip = "";
+        texto = "";
+
+        System.out.println("Introduce datos del mensaje: ");
+        System.out.println("Usuario: ");
+        usuario = Leer.dato();
+        System.out.println("IP: ");
+        ip = Leer.dato();
+        System.out.println("Texto: ");
+        texto = Leer.dato();
+
+        mensaje = new Mensaje(usuario, ip, texto);
+
+        return mensaje;
     }
-    
-    public static void enviarMensaje(Cola cola){                         
+
+    public static void enviarMensaje(Cola cola) {
         cola.meterEnCola(pedirMensaje());
     }
-    
-    public static String pregunta(){
+
+    public static String pregunta() {
         //Entorno:   
-            String confirmacion;
+        String confirmacion;
         //Algoritmo:
-            confirmacion = "";
-        
-            do{
-                System.out.println("Hay mensajes pendientes de recibir "
-                                + "¿Salir de todas formas? (S/N)");
-                confirmacion = Leer.dato();
-            }while(!confirmacion.matches("^[SsNn]"));
-            
-            return confirmacion;
-        }
-    
+        confirmacion = "";
+
+        do {
+            System.out.println("Hay mensajes pendientes de recibir "
+                    + "¿Salir de todas formas? (S/N)");
+            confirmacion = Leer.dato();
+        } while (!confirmacion.matches("^[SsNn]"));
+
+        return confirmacion;
+    }
+
+    public static Mensaje recibirMensaje(Cola cola) {
+
+        return (Mensaje) cola.sacarDeCola();
+    }
+
+    public static void mostrarMensaje(Mensaje msg) {
+        //Entorno: 
+
+        //Algoritmo:
+        System.out.println("Usuario: " + msg.getUsuario());
+        System.out.println("Fecha: " + formatearFecha(msg.getFecha()));
+        System.out.println("IP: " + msg.getIp());
+        System.out.println("Texto:");
+        System.out.println(msg.getTexto());
+    }
+
+    public static String formatearFecha(GregorianCalendar fecha) {
+        //Entorno:
+        String fechaFormateada;
+        //Algoritmo:
+        fechaFormateada = "";
+
+        fechaFormateada = fecha.get(GregorianCalendar.DAY_OF_MONTH) + "/"
+                + ((fecha.get(GregorianCalendar.MONTH)) + 1) + "/"
+                + fecha.get(GregorianCalendar.YEAR);
+        return fechaFormateada;
+    }
+
     public static void main(String[] args) {
         //Entorno:
-            byte opcion;
-            String confirmacion;
-            Cola cola;
+        byte opcion;
+        String confirmacion;
+        Cola cola;
         //Algoritmo:
-            opcion = 0;
-            confirmacion = "S";
-            cola = new Cola();                  
-            
-            do{
-                opcion = datoByte();
-                pintarMenu();
-                
-                switch(opcion){
-                    case 1:
-                        envioInstanteo(cola);
-                        break;
-                    case 2:
-                        enviarMensaje(cola);                 
-                        break;
-                    case 3:
-                        System.out.println("Recibir");
+        opcion = 0;
+        confirmacion = "";
+        cola = new Cola();
+
+        do {
+            pintarMenu();
+            opcion = datoByte();
+
+
+            switch (opcion) {
+                case 1:
+                    envioInstanteo(cola);
+                    break;
+                case 2:
+                    enviarMensaje(cola);
+                    break;
+                case 3:
+                    if (!cola.esColaVacia()) {
+                        mostrarMensaje(recibirMensaje(cola));
+                    } else {
                         System.out.println("No hay más mensajes");
-                        break; 
-                    case 4:
+                    }
+                    break;
+                case 4:
+                    if (!cola.esColaVacia()) {
                         confirmacion = pregunta();
                         break;
-                }
-            }while(!confirmacion.matches("^[Ss]"));
-            
+                    } else {
+                        confirmacion = "S";
+                    }
+            }
+            System.out.println();
+        } while (!confirmacion.matches("^[Ss]"));
+
     }
 }
