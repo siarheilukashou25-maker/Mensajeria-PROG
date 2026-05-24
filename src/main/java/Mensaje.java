@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
  * @author Elias Perez Arroyo
  */
 public class Mensaje {
-    //Entorno:
+    //Atributos:
         private static final String APIPA = "169.254.0.1";
         private String usuario;
         private GregorianCalendar fecha;
@@ -42,7 +42,7 @@ public class Mensaje {
         return this.texto;
     }
 
-    private boolean esValida(String ip) {
+    private static boolean esValida(String ip) {
         //Entorno:
             boolean esValida;
         //Algoritmo:
@@ -52,7 +52,7 @@ public class Mensaje {
             return esValida;
     }
 
-    private String encripta(String msg) {
+    private static String encripta(String msg) {
         //Entorno:
             String bufferInv, bufferEncript,mensajeEncript;
             String[] palabras;
@@ -82,7 +82,7 @@ public class Mensaje {
             return mensajeEncript.trim();
     }
 
-    private String desencripta(String msg) {
+    private static String desencripta(String msg) {
         //Entorno:
             String bufferInv, bufferEncript,mensajeEncript;
             String[] palabras;
@@ -116,7 +116,7 @@ public class Mensaje {
             return mensajeEncript.trim();        
     }
 
-    private String reverse(String cad) {
+    private static String reverse(String cad) {
         //Entorno:
             String[] palabras;
             String palabraReverso, textoReverso;
