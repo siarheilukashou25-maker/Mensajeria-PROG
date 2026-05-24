@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
  * @author Elias Perez Arroyo
  */
 public class Mensaje {
-    //Atributos:
+    //Entorno:
         private static final String APIPA = "169.254.0.1";
         private String usuario;
         private GregorianCalendar fecha;
@@ -31,6 +31,7 @@ public class Mensaje {
             //this.ip = esValida(ip) ? ip : APIPA; --Operador ternario
         
             this.texto = encripta(texto).toUpperCase();
+            this.fecha = new GregorianCalendar();
         }
     //Metodos:
 
@@ -39,10 +40,18 @@ public class Mensaje {
     }
 
     public String getTexto() {
-        return this.texto;
+        return desencripta(this.texto);
+    }
+    
+    public String getUsuario(){
+        return this.usuario;
+    }
+    
+    public String getIp(){
+        return this.ip;
     }
 
-    private static boolean esValida(String ip) {
+    private boolean esValida(String ip) {
         //Entorno:
             boolean esValida;
         //Algoritmo:
@@ -52,7 +61,7 @@ public class Mensaje {
             return esValida;
     }
 
-    private static String encripta(String msg) {
+    private String encripta(String msg) {
         //Entorno:
             String bufferInv, bufferEncript,mensajeEncript;
             String[] palabras;
@@ -82,7 +91,7 @@ public class Mensaje {
             return mensajeEncript.trim();
     }
 
-    private static String desencripta(String msg) {
+    private String desencripta(String msg) {
         //Entorno:
             String bufferInv, bufferEncript,mensajeEncript;
             String[] palabras;
@@ -116,7 +125,7 @@ public class Mensaje {
             return mensajeEncript.trim();        
     }
 
-    private static String reverse(String cad) {
+    private String reverse(String cad) {
         //Entorno:
             String[] palabras;
             String palabraReverso, textoReverso;
