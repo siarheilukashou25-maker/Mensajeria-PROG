@@ -35,119 +35,99 @@ public class Mensaje {
         }
     //Metodos:
 
-    public GregorianCalendar getFecha() {
-        return this.fecha;
-    }
+        public GregorianCalendar getFecha() {
+            return this.fecha;
+        }
 
-    public String getTexto() {
-        return desencripta(this.texto);
-    }
+        public String getTexto() {
+            return desencripta(this.texto);
+        }
     
-    public String getUsuario(){
-        return this.usuario;
-    }
+        public String getUsuario(){
+            return this.usuario;
+        }
     
-    public String getIp(){
-        return this.ip;
-    }
+        public String getIp(){
+            return this.ip;
+        }
 
-    private boolean esValida(String ip) {
-        //Entorno:
-            boolean esValida;
-        //Algoritmo:
-            esValida = false;
+        private boolean esValida(String ip) {
+            //Entorno:
+                boolean esValida;
+            //Algoritmo:
+                esValida = false;
 
-            esValida = ip.matches("^(?:(?:25[0-5]|2[0-4]\\d|1?\\d{1,2})(?:\\.(?!$)|$)){4}");
-            return esValida;
-    }
+                esValida = ip.matches("^(?:(?:25[0-5]|2[0-4]\\d|1?\\d{1,2})(?:\\.(?!$)|$)){4}");
+                return esValida;
+        }
 
-    private String encripta(String msg) {
-        //Entorno:
-            String bufferInv, bufferEncript,mensajeEncript;
-            String[] palabras;
-            int i, j;
-        //Algoritmo:
-            i = 0;
-            j = 0;
-            mensajeEncript="";
-            bufferInv = "";
-            bufferEncript = "";
-            
-            bufferInv = reverse(msg);           
-            palabras = bufferInv.toUpperCase().split("\\s+");
-        
-            for (i = 0; i < palabras.length; i++) {           
-                bufferEncript="";
-                for (j = 0; j < palabras[i].length(); j++) {               
-                    if (palabras[i].charAt(j) + 3 > 90) {
-                        bufferEncript+=(char)(((palabras[i].charAt(j) + 3)  - 'Z') + 'A' - 1);
-                    } else {
-                        bufferEncript += (char)(palabras[i].charAt(j) + 3);
-                    }//Fin Si
-                }//Fin Para
-                mensajeEncript+=bufferEncript+" ";
-            }//Fin Para
-        
-            return mensajeEncript.trim();
-    }
+        private String encripta(String msg) {
+            //Entorno:
+                String bufferInv, mensajeEncript;
+                int i;
+            //Algoritmo:
+                i = 0;
+                mensajeEncript = "";
+                bufferInv = "";
+    
+                bufferInv = reverse(msg).toUpperCase();
 
-    private String desencripta(String msg) {
-        //Entorno:
-            String bufferInv, bufferEncript,mensajeEncript;
-            String[] palabras;
-            int i, j;
-        //Algoritmo:
-            i = 0;
-            j = 0;
-            bufferInv = "";
-            bufferEncript = "";
-            mensajeEncript = "";
-            
-            bufferInv = reverse(msg);
-            palabras = bufferInv.toUpperCase().split("\\s+");
-        
-            for (i = 0; i < palabras.length; i++) {  
-                
-                bufferEncript="";
-                
-                for (j = 0; j < palabras[i].length(); j++) {    
+                for (i = 0; i < bufferInv.length(); i++) {
                     
-                    if (palabras[i].charAt(j) + 3 > 90) {
-                        bufferEncript+=(char)(((palabras[i].charAt(j) -3)  - 'Z') + 'A' - 1);
+                    if (bufferInv.charAt(i) >= 'A' && bufferInv.charAt(i) <= 'Z') {
+                        
+                        if (bufferInv.charAt(i) + 3 > 'Z') {
+                            mensajeEncript += (char)(((bufferInv.charAt(i) + 3) - 'Z') + 'A' - 1);
+                        } else {
+                            mensajeEncript += (char)(bufferInv.charAt(i) + 3);
+                        }//Fin Si
                     } else {
-                        bufferEncript += (char)(palabras[i].charAt(j) - 3);
+                        mensajeEncript += bufferInv.charAt(i);
                     }//Fin Si
                 }//Fin Para
-                
-                mensajeEncript+=bufferEncript+" ";
-            }//Fin Para
-        
-            return mensajeEncript.trim();        
-    }
 
-    private String reverse(String cad) {
-        //Entorno:
-            String[] palabras;
-            String palabraReverso, textoReverso;
-            int i, j;
-        //Algoritmo:     
-            i = 0;
-            j = 0;
-            palabraReverso = "";
-            textoReverso = "";
-        
-            palabras = cad.split("\\s+");
-            
-            for (i = 0; i < palabras.length; i++) {
-                palabraReverso = "";
+                return mensajeEncript;
+        }
+
+        private String desencripta(String msg) {
+            //Entorno:
+                String mensajeDesencript;
+                int i;
+            //Algoritmo:
+                i = 0;
+                mensajeDesencript = "";
+    
+                msg = reverse(msg).toUpperCase();              
                 
-                for (j = palabras[i].length() - 1; j >= 0; j--) {
-                    palabraReverso += palabras[i].charAt(j);
+                for (i = 0; i < msg.length(); i++) {
+
+                    if (msg.charAt(i) >= 'A' && msg.charAt(i) <= 'Z') {
+                        
+                        if (msg.charAt(i) - 3 < 'A') {
+                            mensajeDesencript += (char)(((msg.charAt(i) - 3) - 'A') + 'Z' + 1);
+                        } else {
+                            mensajeDesencript += (char)(msg.charAt(i) - 3);
+                        }//Fin Si                  
+                    } else {
+                        mensajeDesencript += msg.charAt(i);
+                    }//Fin Si
                 }//Fin Para
-                
-                textoReverso += palabraReverso + " ";
-            }//Fin Para
-            
-            return textoReverso.trim();
-    }
+
+                return mensajeDesencript;
+        }
+
+        private String reverse(String cad) {
+            //Entorno:
+                String textoReverso;
+                int i;
+            //Algoritmo:
+                i = 0;
+                textoReverso = "";
+
+                for (i = cad.length() - 1; i >= 0; i--) {
+                    textoReverso += cad.charAt(i);
+                }//Fin Para
+
+                return textoReverso;
+        }
 }
